@@ -1,0 +1,33 @@
+= DataSciencePosts
+
+:toc:
+:toc-title:
+:toc-placement: preamble
+:sectnums:
+:imagesDir: images
+:stylesDir: stylesheets
+:xrefstyle: full
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:warning-caption: :warning:
+asciimath::[]
+endif::[]
+
+= Machine Learning
+
+= Deep Learning
+
+== Loss function
+
+=== cross-entropy
+
+Entroy is the the number of bits required to transmit a randomly selected event
+from a probabilty distribution. A skewd distribution has a low entropy whereas a
+distribution where events have equal probabilty has a larger entropy.
+
+Entropy for an event: asciimath:[H(x) = sum_(i=1)^n i^3]
+
+image::Plot-of-Probability-vs-Information.png[]
+
+== Convelutional Nerual Network
