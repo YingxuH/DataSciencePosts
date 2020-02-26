@@ -11,12 +11,15 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :warning-caption: :warning:
-asciimath::[]
 endif::[]
 
 = Machine Learning
 
 = Deep Learning
+
+== activation function
+
+softmax:
 
 == Loss function
 
@@ -26,8 +29,21 @@ Entroy is the the number of bits required to transmit a randomly selected event
 from a probabilty distribution. A skewd distribution has a low entropy whereas a
 distribution where events have equal probabilty has a larger entropy.
 
-Entropy for an event: asciimath:[H(x) = sum_(i=1)^n i^3]
+Entropy for an event: H(x) = -log(p(x))
 
 image::Plot-of-Probability-vs-Information.png[]
 
+Entropy for a random variable H(x) = -sum(each k in K, p(k)*log(p(k)))
+
+For binary classification: `H(P, Q) = – (P(class0) * log(Q(class0)) + P(class1) * log(Q(class1)))`
+
+Multi-class classification: The number of nodes in the last layer should be equal to the number of classes.
+
+== Overfitting:
+
+The number of hidden nodes will affect the training outcome.
+How to decide the number of units?
+
 == Convelutional Nerual Network
+
+== RNN
