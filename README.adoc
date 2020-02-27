@@ -37,7 +37,17 @@ Entropy for a random variable H(x) = -sum(each k in K, p(k)*log(p(k)))
 
 For binary classification: `H(P, Q) = – (P(class0) * log(Q(class0)) + P(class1) * log(Q(class1)))`
 
-Multi-class classification: The number of nodes in the last layer should be equal to the number of classes.
+https://machinelearningmastery.com/cross-entropy-for-machine-learning/[Multi-class classification]:
+The number of nodes in the last layer should be equal to the number of classes.
+
+. Calculate the entropy between predicted prob and ground truth for each class
+. Average the cross entropy
+
+Details here.
+[source.python]
+----
+include::cross_entropy.py[]
+----
 
 == Overfitting:
 
