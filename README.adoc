@@ -98,5 +98,19 @@ How to decide the number of units?
 
 == RNN
 
+=== Number of units:
+
+https://keras.io/layers/embeddings/[Keras Embedding layer]
+Embedding(input_dim, output_dim, input_length)
+
+[[input_dim]] input_dim::
+size of the vocabulary, maximum integer index + 1
+
+[[output_dim]] output_dim::
+Dimension of the dense word embedding.
+
+
 Cannot use batch normalization in RNN as it does not consider the recurrent part
 of the network.
+
+== Related Work
