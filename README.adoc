@@ -53,6 +53,13 @@ include::cross_entropy.py[lines:10..16]
 
 === log likelihood
 
+=== Newton's Method
+
+Similar to Gradient Descent, we firstly take the partial derivative of J(θ) that is the slope of J(θ),
+and note it as f(θ). Instead of decreasing θ by a certain chosen learning rate `α` multiplied with f(θ) ,
+Newton’s Method gets an updated θ at the `point of intersection of the tangent line of f(θ) at previous θ and x axis`.
+After amount of iterations, Newton’s Method will converge at f(θ) = 0.
+
 == Overfitting:
 
 === Batch normalization

@@ -1,8 +1,8 @@
 = Risk Management Analysis
 
-:site-section: DeveloperGuide
 :toc:
 :toc-title:
+:toc-placement: preamble
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
@@ -13,7 +13,25 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-== something
-blahbalah
+By: `He Yingxu`
 
-== somthingelse
+== Introduction
+
+This is a course project in BT4211 Risk Analysis
+
+=== Data Set
+A data set containing loans data issued to customers. It includes the current loan status
+(Current, Late, Fully Paid, etc.) and a large set of attributes for each customer.
+
+=== Goal
+Predict if a load will default using all the information given.
+
+== Logistic Regression
+
+=== Loss Function
+
+=== Solver
+
+== Tree Classification
+
+== XGBoost
