@@ -17,7 +17,16 @@ By: `He Yingxu`
 
 == Introduction
 
-This is a course project in BT4211 Risk Analysis
+This is a course project in BT4211 Risk Analysis, where
+
+* we compared the performance of logistic regression, Lasso regression, decision tree,
+and XGBoost on a loan-default prediction task, and identified the XGBoost as the most
+effective model.
+
+* Applied L2 regularization on logistics regression to obtain the most effective variables.
+
+* Tunned the hyper-parameters of XGBoost through both manual and automatic tunning (e.g. bayesian
+optimisation) to achieve an accuracy of xxx. Experimented essemble methods such as stacking, majority voting, etc. 
 
 === Data Set
 A data set containing loans data issued to customers. It includes the current loan status
@@ -28,10 +37,25 @@ Predict if a load will default using all the information given.
 
 == Logistic Regression
 
+The <<link-function, link function>> for Logit regression is log(<<odds, odds>>) =
+alpha + beta*x + .... +
+p(x) = e^(alpha + beta*X) / 1 + e^(alpha + beta*X)
+
 === Loss Function
+
+Log-likelihood:
 
 === Solver
 
 == Tree Classification
 
 == XGBoost
+
+
+== Keywords
+[[odds]] Odds::
+p(x)/1-p(x)
+
+[[link-function]] Link Function::
+The function specifies how u = E(Y) relates to explanatory variable in the
+linear predictor.
