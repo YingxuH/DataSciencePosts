@@ -4,7 +4,7 @@
 :toc-title:
 :toc-placement: preamble
 :sectnums:
-:imagesDir: images
+:imagesDir: ../images
 :stylesDir: stylesheets
 :xrefstyle: full
 ifdef::env-github[]
@@ -17,16 +17,22 @@ By: `He Yingxu`
 
 == Introduction
 
-This is a course project in BT4211 Risk Analysis, where
+This is a course project in BT4211 Risk Analysis, where we
+
+* Compared accuracy and MCC of logistic regression using the full features and lasso
+regression keeping only half of the features on a loan-default prediction task.
+These two models show a similar accuracy and <<mcc, MCC>>,
+which implies the selected variables by lasso regression is equivalent to the full features.
 
 * we compared the performance of logistic regression, Lasso regression, decision tree,
-and XGBoost on a loan-default prediction task, and identified the XGBoost as the most
-effective model.
-
-* Applied L2 regularization on logistics regression to obtain the most effective variables.
+and XGBoost, and identified the XGBoost as the most
+effective model with an accuracy of 0.90 and a <<mcc, MCC>> of 0.81.
 
 * Tunned the hyper-parameters of XGBoost through both manual and automatic tunning (e.g. bayesian
-optimisation) to achieve an accuracy of xxx. Experimented essemble methods such as stacking, majority voting, etc. 
+optimisation and genetic algorithm) to achieve an accuracy of 0.924.
+Experimented essemble methods such as stacking, majority voting, etc.
+
+Find the code https://github.com/YingxuH/DataSciencePosts/blob/master/src/Assignment2.ipynb[here].
 
 === Data Set
 A data set containing loans data issued to customers. It includes the current loan status
@@ -41,11 +47,32 @@ The <<link-function, link function>> for Logit regression is log(<<odds, odds>>)
 alpha + beta*x + .... +
 p(x) = e^(alpha + beta*X) / 1 + e^(alpha + beta*X)
 
+=== Adjusted R-square
+
+The drawback of R^2 is that if new predictors are added to the model, R^2 only increases
+or remains constant but it never decreases. +
+
+The Adjusted R-Square is the modified form of R-Square that has been adjusted
+for the number of predictors in the model. It incorporates model’s degree of freedom.
+The adjusted R-Square only increases if the new term improves the model accuracy. +
+
+image::adj-r2.png[]
+
 === Loss Function
 
-Log-likelihood:
+apply l1 regularization on the regression. The goal of the training is turned to
+
+image::lasso-loss.png[]
+
+Even at small alphas, the coefficients are reducing towards 0. Lasso selects only
+some features while reduces the coefficients of others to zero.
+
+=== Log-likelihood
 
 === Solver
+
+=== lasso regularization
+
 
 == Tree Classification
 
@@ -59,3 +86,10 @@ p(x)/1-p(x)
 [[link-function]] Link Function::
 The function specifies how u = E(Y) relates to explanatory variable in the
 linear predictor.
+
+[[mcc]] MCC::
+https://en.wikipedia.org/wiki/Matthews_correlation_coefficient[Matthews Correlation Coefficient]:
+While there is no perfect way of describing the confusion matrix of true and false positives and negatives by a single number,
+the Matthews correlation coefficient is generally regarded as being one of the best such measures.
+Other measures, such as the proportion of correct predictions (also termed accuracy), are not useful when the two classes are of very different sizes.
+For example, assigning every object to the larger set achieves a high proportion of correct predictions, but is not generally a useful classification.
