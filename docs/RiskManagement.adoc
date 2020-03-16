@@ -70,6 +70,10 @@ Thus, the probability of all the data is
 
 image::logit-all-data-prob.png[]
 
+Taking log of this function, the log-likehood equation is:
+
+image::log-likelihood.png[]
+
 === Solver
 
 === lasso regularization
