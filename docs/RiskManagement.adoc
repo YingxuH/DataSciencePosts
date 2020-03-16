@@ -60,18 +60,18 @@ image::adj-r2.png[]
 
 === Loss Function
 
+=== Log-likelihood
+
+=== Solver
+
+=== lasso regularization
+
 apply l1 regularization on the regression. The goal of the training is turned to
 
 image::lasso-loss.png[]
 
 Even at small alphas, the coefficients are reducing towards 0. Lasso selects only
 some features while reduces the coefficients of others to zero.
-
-=== Log-likelihood
-
-=== Solver
-
-=== lasso regularization
 
 
 == Tree Classification
