@@ -62,6 +62,14 @@ image::adj-r2.png[]
 
 === Log-likelihood
 
+The probability of one data point is
+
+image::logit-probability.png[]
+
+Thus, the probability of all the data is
+
+image::logit-all-data-prob.png[]
+
 === Solver
 
 === lasso regularization
