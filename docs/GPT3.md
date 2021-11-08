@@ -8,13 +8,22 @@ GPT-3 used the same term 'meta-learning' （or 'zero-shot transfer'） to descri
 
 The meta-learning used in GPT-3 can be configured with a outer-loop and inner-loop, where the inner-loop is also referred to as 'in-context learning'. During the outer-loop, the model is trained via un-supervised learning to improve its general capability. For the inner-loop, the model will be fed with some instances of the tasks without any parameter updating, then the model is required to complete the following instances following the same pattern. 
 
+- Few-Shot learning: The model is given a few demonstrations at inference time, together with the task explainations.
+- One-Shot learning: The model is given one example at inference time, together with the task explainations. 
+- Zero-Shot learning: Only natural language instruction is given at inference time. 
+
 2. Sparse Transformer
 
 The idea is similar to the sparse transformer introduced in Child's paper [^2]. 
 
-3. Large scale training data set. 
+3. Large Capacity
 
-It started from the CommonCrawl dataset and filtered out the low-quality and duplicated cotent. 
+4. Large scale training data set. 
+
+It started from the CommonCrawl dataset and filtered out the low-quality and duplicated cotent. The authors removed duplications in the CommonCrawl dataset to keep the integrity of the validation data set. In addition, other high-quality while smaller-scale corpura has been added to improve the diversity. The augmented dataset includes: 
+- expanded WebText
+- Internet books corpora (Books1 and Books2)
+- English-language Wikipedia
 
 
 [^1]: https://arxiv.org/pdf/1703.03400.pdf
