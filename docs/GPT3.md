@@ -14,7 +14,7 @@ The meta-learning used in GPT-3 can be configured with a outer-loop and inner-lo
 
 2. Sparse Transformer
 
-The idea is similar to the sparse transformer introduced in Child's paper [^3]. 
+The idea is similar to the sparse transformer introduced in Child's paper [^3]. As a typical self-attention methchanism introduced in the orignal Transformer paper [^4], each position i at generation will attend to all the other available positions j belongs to N. The time complexity becomes <img src="https://render.githubusercontent.com/render/math?math=O(n^2)">. Child proposed to reduce the complexity to <img src="https://render.githubusercontent.com/render/math?math=O(n\sqrt n)"> while keep the original accuracy. It is done by create the differetn subset <img src="https://render.githubusercontent.com/render/math?math=A^m_i"> of indices for each index i to attend, where <img src="https://render.githubusercontent.com/render/math?math=|A^m_i| = \sqrt n">. The subsets are guaranteed to fulfill the criteria that each position j will be attended by future position i with at most p + 1 pathes (p is chosen to be 2 in Child's paper).
 
 3. Large Capacity
 
@@ -29,3 +29,4 @@ It started from the CommonCrawl dataset and filtered out the low-quality and dup
 [^1]: https://arxiv.org/pdf/2005.14165.pdf
 [^2]: https://arxiv.org/pdf/1703.03400.pdf
 [^3]: https://arxiv.org/pdf/1904.10509.pdf
+[^4]: https://arxiv.org/pdf/1706.03762.pdf
