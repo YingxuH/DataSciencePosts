@@ -39,7 +39,6 @@ image::svm-hypo.png[]
 . Loss function: SVM gives some punishment to both incorrect predictions and those close to decision boundary ( 0 < θᵀx <1).
 
 image::svm-loss.png[]
- When C is smaller, the margin will be  wider.
 
 . https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html#sphx-glr-auto-examples-svm-plot-rbf-parameters-py[RBF Kernel] (radial basis Kernel):
 A low C encourages a large margin, therefore a simpler decision function. For large values of C,
@@ -90,7 +89,7 @@ The number of nodes in the last layer should be equal to the number of classes.
 Details link:\\cross_entropy.py[here].
 [source.python]
 ----
-include::cross_entropy.py[lines:10..16]
+include::src/cross_entropy.py[lines:10..16]
 ----
 
 === log likelihood

@@ -76,7 +76,7 @@ image::log-likelihood.png[]
 
 === Solver
 
-=== lasso regularization
+=== lasso regression
 
 apply l1 regularization on the regression. The goal of the training is turned to
 
@@ -85,6 +85,10 @@ image::lasso-loss.png[]
 Even at small alphas, the coefficients are reducing towards 0. Lasso selects only
 some features while reduces the coefficients of others to zero.
 
+=== Ridge regression
+
+The regularization term is changed to the square of weight vector. It helps to reduce the model
+complexity and prevent over fitting, but cannot select features.
 
 == Tree Classification
 
