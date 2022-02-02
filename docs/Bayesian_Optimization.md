@@ -10,6 +10,9 @@ One of the surrogate function used to pick the best x. It compromises the differ
 
 Calculating the EI using p(y|x). Possibly need multiple GPs for different set of parameters (different layers of a neural network). 
 
+1. Closedness -> fitting new model with historical observations
+2. Providing the prediction uncertainty -> find the best x for the next iteration.
+
 ## Tree-structured Parzen Estimators
 
 Calculating the EI using p(x|y) and p(y). Tree-structue allows all the variables to be estimated simultaneously. Two sets of population density for observations lower or higher than a certain theshold. 
