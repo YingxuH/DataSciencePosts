@@ -31,3 +31,10 @@ Pre-training the generator with PSNR loss is claimed to be helpful for avoiding 
 
 The experiments are performed with a scaling factor of x4. The model is trained on 2650 4k images. Experiments show that the proposed model outperforms previous SOTA methods in both sharpness and details.
 
+## Real-ESRGAN
+Although the ESRGAN model has made several enhancements upon the traditional SRGAN, its performance on real-world images might still have problems due to the bias in training data. Classical image degradation model is still hard to simulate real-world low quality images. Therefore, in this paper, a high-order degradation model is proposed to better intimate the real-world phenomenon.
+
+The contributions of this work are as follows:
+- It proposes a high-order degradation process to model practical degradations. 
+- It applies pixel-shuffle on the input of the generators. It switched the discriminator from VGG framework to U-Net, and introduced spectral normalization to deal with the complicated data set and allieviate the instability of U-net. 
+
