@@ -11,3 +11,5 @@
 |count|10|10|10|10|10|10|10|10|10|10|10|
 |unique|10|10|1|1|1|1|1|7|5|5|6|
 
+6. [metissa and exponent](https://www.storyofmathematics.com/glossary/mantissa/)
+7. 
