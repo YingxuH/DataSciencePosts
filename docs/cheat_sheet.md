@@ -12,4 +12,7 @@
 |unique|10|10|1|1|1|1|1|7|5|5|6|
 
 6. [metissa and exponent](https://www.storyofmathematics.com/glossary/mantissa/)
-7. 
+7. python type hinting: List, Dict, Any, etc.
+8. kaggle API:
+9. Decorator function with arguments: add a wrapper outside the decoration function (request retry).
+   - can add double decoration function. 
