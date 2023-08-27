@@ -8,6 +8,19 @@
 6. []: "^": negate the characters following the caret. "-" means range. the usual meta characters are normal characters inside a character class. no need to be escaped. [more info](https://www.regular-expressions.info/charclass.html).
 7. python double backslash: python interpret "\\\\" as single backslash "\\" .
 
+## python GIL mechanisms
+1. time out function on windows system:
+```python
+import concurrent.futures as futures
+
+with futures.ThreadPoolExecutor(max_workers=1) as executor:
+    future = executor.submit(<your_function_name>, *args, **kwargs)
+    completion = future.result(<your_time_out_limit>)
+    executor._threads.clear()
+    futures.thread._threads_queues.clear()
+```
+
+
 ## other
 1. [metissa and exponent](https://www.storyofmathematics.com/glossary/mantissa/)
 2. python type hinting: List, Dict, Any, etc.
