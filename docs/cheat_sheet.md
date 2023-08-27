@@ -14,3 +14,32 @@
 3. kaggle API:
 4. Decorator function with arguments: add a wrapper outside the decoration function (request retry).
    - can add double decoration function.
+5. ignore warning context:
+
+For fixed warning types:
+
+```python
+import warnings
+from urllib3.exceptions import InsecureRequestWarning
+
+def ignore_request_warning(func):
+    def inner(*args, **kwargs):
+        with warnings.catch_warnings():
+            warnings.simplefilter(action="ignore", category=InsecureRequestWarning)
+            return func(*args, **kwargs)
+    return inner
+```
+For flexible warning types which could be input as arguments: 
+
+```python
+import warnings
+
+def ignore_request_warning(warning):
+    def decorator(function)
+        def inner(*args, **kwargs):
+            with warnings.catch_warnings():
+                warnings.simplefilter(action="ignore", category=warning)
+                return func(*args, **kwargs)
+        return inner
+    return decorator
+```
