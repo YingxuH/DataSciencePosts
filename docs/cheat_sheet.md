@@ -6,7 +6,7 @@
 4. lookahead (to the right of the pattern): positive ?= negative ?! (?=(<regex>)): capture character n-grams with step size = 1. 
 5. (?:): non-capturing group.
 6. []: "^": negate the characters following the caret. "-" means range. the usual meta characters are normal characters inside a character class. no need to be escaped. [more info](https://www.regular-expressions.info/charclass.html).
-7. python double backslash: python interpret "\\" as "\".
+7. python double backslash: python interpret "\\\\" as single backslash "\\" .
 
 ## other
 1. [metissa and exponent](https://www.storyofmathematics.com/glossary/mantissa/)
