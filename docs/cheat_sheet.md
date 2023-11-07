@@ -57,4 +57,4 @@ def ignore_request_warning(warning):
     return decorator
 ```
 
-6. bitsandbytes might has some problem with running no V100. Set with `torch.autocast("cuda"):`{.python} before training the trainer. [More info](https://github.com/TimDettmers/bitsandbytes/issues/240)
+6. bitsandbytes might has some problem with running no V100. Set with `torch.autocast("cuda"):`{:.python} before training the trainer. [More info](https://github.com/TimDettmers/bitsandbytes/issues/240)
