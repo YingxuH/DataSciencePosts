@@ -58,3 +58,4 @@ def ignore_request_warning(warning):
 ```
 
 6. bitsandbytes might has some problem with running no V100. Set with `torch.autocast("cuda"):`{:.python} before training the trainer. [More info](https://github.com/TimDettmers/bitsandbytes/issues/240)
+7. [Model save weight](https://github.com/huggingface/peft/issues/286#issuecomment-1501617281)
