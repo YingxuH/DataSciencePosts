@@ -14,3 +14,5 @@ repeat of training data (repeats of templates, repeat of patterns) will only get
 attention quadratic complexity problem?
 pre-training doesnt benefit translation tasks?
 mT5: exact same model but trained on multillingual corpus.
+worst case overfitting: memorize key information.
+language model perplexity?
