@@ -16,3 +16,13 @@ pre-training doesnt benefit translation tasks?
 mT5: exact same model but trained on multillingual corpus.
 worst case overfitting: memorize key information.
 language model perplexity?
+
+Reading list: 
+- Exploring the Limits of Transfer Learning with a UnifiedText-to-Text Transformer
+- mT5: A Massively Multilingual Pre-trained Text-to-Text Transformer
+- Scaling Instruction-Finetuned Language Models
+- How Much Knowledge Can You Pack Into the Parameters of a Language Model?
+- How CanWe Know What Language Models Know?
+- MULTITASK PROMPTED TRAINING ENABLES ZERO-SHOT TASK GENERALIZATION
+- Emergent Abilities of Large Language Models
+- Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks
