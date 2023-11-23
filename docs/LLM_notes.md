@@ -1,3 +1,16 @@
+## Architecture
+Up to 2023, most of the trending LMs follows the transformer architecture. 
+### Embeddings 
+Compared to traditional RNNs, the sequential feature of the input is not taken care of by the recurrent process. On the contrary, positional embedding handles this. 
+
+### Attention
+> [!NOTE]  
+> Might be quite obvious but still want to keep a note here: shared matrix is used for each token in the sequence.
+
+- **Encoder**: Fully visiable structure. No Causal mask.
+- **Decoder**: Tokens appearnig at subsequent times are masked.
+- **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visiable to each other, while token in the real input can only see the preceeding tokens.
+
 ## Quantization
 It means a projection from a set of indices to real domains. Typically people save weights in 32-bit for storage and calculate gradients in 16-bit. 
 FP32 and bFP16 (BrainFP16) don't have difference in their ranges.
@@ -15,7 +28,7 @@ corrupt the input sequence and reproduce it in the output.
 - **drop style** (T5): simply drop the corrupted tokens in input.
 
 > [!NOTE]  
-> **Replace style** and **drop style** might speed up the training process and require lower computational cost as the target sequence is shorter. (How to define shorter as still one token has to be produced each time?)
+> **Replace style** and **drop style** might speed up the training process and require lower computational cost, as the target sequence is shorter. (How to define shorter as still one token has to be produced each time?)
 
 ### Next token prediction
 pass
