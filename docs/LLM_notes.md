@@ -1,5 +1,5 @@
 ## Architecture
-Up to 2023, most of the trending LMs follows the transformer architecture. 
+Up to 2023, most of the trending LMs follow the transformer architecture. 
 ### Embeddings 
 Compared to traditional RNNs, the sequential feature of the input is not taken care of by the recurrent process. On the contrary, positional embedding handles this. 
 
@@ -8,12 +8,12 @@ Compared to traditional RNNs, the sequential feature of the input is not taken c
 > Might be quite obvious but still want to keep a note here: shared matrix is used for each token in the sequence.
 
 - **Encoder**: Fully visiable structure. No Causal mask.
-- **Decoder**: Tokens appearnig at subsequent times are masked.
-- **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visiable to each other, while token in the real input can only see the preceeding tokens.
+- **Decoder**: Tokens appearing at subsequent times are masked.
+- **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visible to each other, while tokens in the real input can only see the preceding tokens.
 
 ## Quantization
-It means a projection from a set of indices to real domains. Typically people save weights in 32-bit for storage and calculate gradients in 16-bit. 
-FP32 and bFP16 (BrainFP16) don't have difference in their ranges.
+It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 
+FP32 and bFP16 (BrainFP16) don't have differences in their ranges.
 
 - 8-bit quantization: mixed-precision matrix decomposition: 8-bit quantize the normal states & weights and leave the outliers unchanged.
 - Normal float 4: In layman's terms, instead of using the normal "sign-exponent-mantissa" schema to represent actual values, the normal float data type keeps an index-value
