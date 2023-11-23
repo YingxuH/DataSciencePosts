@@ -12,10 +12,13 @@ corrupt the input sequence and reproduce it in the output.
 - **Bert** (masked language modelling, MLM): corrupts 15% of the tokens. 80% of the corrupted tokens are replaced with a special mask token, 10% are replaced with a random token, and the rest 10% unchanged. The task is to reproduce the entire original sequence.
 - **Mass style** (T5): only replace corrupted tokens with the special mask token.
 - **Replace style** (T5): replace consequtive span of corrupted tokens with a single mask token, and only predict the concatenated corrupted spans. Note that each span in the target span is prefixed by the specific mask token.
-- **Replace style** (T5): simply drop the corrupted tokens in input.
-- 
+- **drop style** (T5): simply drop the corrupted tokens in input.
+
+> [!NOTE]  
+> **Replace style** and **drop style** might speed up the training process and require lower computational cost as the target sequence is shorter. (How to define shorter as still one token has to be produced each time?)
 
 ### Next token prediction
+pass
 
 ## Stanford CS244N
 
