@@ -1,15 +1,24 @@
 ## Quantization
-It means a projection from a set of indices to real domains. Normally people save weights in 32-bit for storage and calculate gradients in 16-bit. 
+It means a projection from a set of indices to real domains. Typically people save weights in 32-bit for storage and calculate gradients in 16-bit. 
 FP32 and bFP16 (BrainFP16) don't have difference in their ranges.
 
 - 8-bit quantization: mixed-precision matrix decomposition: 8-bit quantize the normal states & weights and leave the outliers unchanged.
 - Normal float 4: In layman's terms, instead of using the normal "sign-exponent-mantissa" schema to represent actual values, the normal float data type keeps an index-value
-pair where the kth value is the kth quantile of the source tensor.
+pair where the kth value is the kth quantile of the source tensor. It's information-theoretically optimal as they claim!
 
+## Pre-training objectives
+### Denoising objective
+corrupt the input sequence and reproduce it in the output.
+- **Bert** (masked language modelling, MLM): corrupts 15% of the tokens. 80% of the corrupted tokens are replaced with a special mask token, 10% are replaced with a random token, and the rest 10% unchanged. The task is to reproduce the entire original sequence.
+- **Mass style** (T5): only replace corrupted tokens with the special mask token.
+- **Replace style** (T5): replace consequtive span of corrupted tokens with a single mask token, and only predict the concatenated corrupted spans. Note that each span in the target span is prefixed by the specific mask token.
+- **Replace style** (T5): simply drop the corrupted tokens in input.
+- 
+
+### Next token prediction
 
 ## Stanford CS244N
 
-T5-the second two method only target the masked out tokens, much lower cost? which two?
 repeat of training data (repeats of templates, repeat of patterns) will only get the model overfitted (lower training loss).
 attention quadratic complexity problem?
 pre-training doesnt benefit translation tasks?
