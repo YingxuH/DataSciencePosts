@@ -1,4 +1,4 @@
-Table of Content
+## Table of Content
 - [Architecture](#architecture)
   * [Embeddings](#embeddings)
   * [Attention](#attention)
@@ -27,6 +27,8 @@ The embedding matrix is shared between the input embedding and the output classi
 - **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visible to each other, while tokens in the real input can only see the preceding tokens.
 
 ### Point-wise Feed forward layer
+- **Expand layer**: (d_model, d_ffn)
+- **Contraction layer**: (d_ffn, d_model)
 
 ## Pretraining 
 ### Pre-training objectives
