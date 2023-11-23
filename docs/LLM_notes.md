@@ -1,18 +1,24 @@
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
+
 ### Embeddings 
 Compared to traditional RNNs, the sequential feature of the input is not taken care of by the recurrent process. On the contrary, positional embedding handles this. 
 
+The embedding matrix is shared between the input embedding and the output classification process.
+
 ### Attention
 > [!NOTE]  
-> Might be quite obvious, but still want to keep a note here: shared matrix is used for each token in the sequence.
+> It Might be quite obvious, but I still want to note here: shared matrix is used for each token in the sequence.
 
 - **Encoder**: Fully visiable structure. No Causal mask.
 - **Decoder**: Tokens appearing at subsequent times are masked.
 - **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visible to each other, while tokens in the real input can only see the preceding tokens.
 
-## Pre-training objectives
-### Denoising objective
+### Point-wise Feed forward layer
+
+## Pretraining 
+### Pre-training objectives
+#### Denoising objective
 corrupt the input sequence and reproduce it in the output.
 - **Bert** (masked language modeling, MLM): corrupts 15% of the tokens. 80% of the corrupted tokens are replaced with a special mask token, 10% are replaced with a random token, and the remaining 10% are unchanged. The task is to reproduce the entire original sequence.
 - **Mass style** (T5): replace corrupted tokens with the special mask token.
@@ -22,7 +28,7 @@ corrupt the input sequence and reproduce it in the output.
 > [!NOTE]  
 > **Replace style** and **drop style** might speed up the training process and require lower computational cost, as the target sequence is shorter. (How to define shorter as still one token has to be produced each time?)
 
-### Next token prediction
+#### Next token prediction
 pass
 
 ## Quantization
@@ -43,6 +49,7 @@ pair where the kth value is the kth quantile of the source tensor. It's informat
 - language model perplexity?
 
 Reading list: 
+- Attention is all you need
 - Exploring the Limits of Transfer Learning with a UnifiedText-to-Text Transformer
 - mT5: A Massively Multilingual Pre-trained Text-to-Text Transformer
 - Scaling Instruction-Finetuned Language Models
