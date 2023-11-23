@@ -1,3 +1,15 @@
+Table of Content
+- [Architecture](#architecture)
+  * [Embeddings](#embeddings)
+  * [Attention](#attention)
+  * [Point-wise Feed forward layer](#point-wise-feed-forward-layer)
+- [Pretraining](#pretraining)
+  * [Pre-training objectives](#pre-training-objectives)
+    + [Denoising objective](#denoising-objective)
+    + [Next token prediction](#next-token-prediction)
+- [Quantization](#quantization)
+- [Stanford CS244N](#stanford-cs244n)
+
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
 
