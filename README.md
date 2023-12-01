@@ -79,6 +79,14 @@ https://github.com/YingxuH/DataSciencePosts/blob/21cbad9d07fb7a4d1fe05c027808843
 
 #### log likelihood
 
+The probablity of observing the evidence (data including x, y) given the belief is true (the model parameters), namely $p(x, y;\theta)$. 
+
+**Maximum Likelihood Estimation**
+Maximiize the likelihood function to find the parameter that best describe the data. For supervised learning, the probability of observing the data can be considered as $p(y|x)$, since the likelihood function can be framed as $p(y|x;\theta)$.
+
+- For Logistic regression, the MLE objective is equivalent to minimizing the negative binary entropy loss. (The same actually applies to many other classification algorithms)
+- For CRF, the MLE objective can be translated into minimizing the difference between the score of gold standard sequence and the score of sampling the entire space, namely the normalization factor. 
+
 #### Newton's Method
 
 Similar to Gradient Descent, we firstly take the partial derivative of J(θ) that is the slope of J(θ),
