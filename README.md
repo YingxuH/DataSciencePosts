@@ -74,7 +74,7 @@ The number of nodes in the last layer should be equal to the number of classes.
 - Calculate the entropy between predicted prob and ground truth for each class
 - Average the cross entropy
 
-https://github.com/YingxuH/DataSciencePosts/blob/master/src/cross_entropy.py#L10-L16
+https://github.com/YingxuH/DataSciencePosts/blob/21cbad9d07fb7a4d1fe05c027808843797a7ffab/src/cross_entropy.py#L10-L16
 
 
 #### log likelihood
