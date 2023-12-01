@@ -9,7 +9,7 @@
 of negative samples predicted as positive. Alternatively, it is the rate of falsely reject
 the null hypothesis.
 . Type II error: Non-rejection of a false null hypothesis. Namely False negative rate.
-
+sdf
 ### Bagging and boosting
 
 ### Naive Bayes
