@@ -60,7 +60,7 @@ pair where the kth value is the kth quantile of the source tensor. It's informat
 
 > ❓ attention quadratic complexity problem?
 
-> ❓ mT5: exact same model but trained on multillingual corpus.
+> ❓ mT5: exact same model but trained on multilingual corpus.
 
 > ❓ worst case overfitting: memorize key information.
 
@@ -76,3 +76,15 @@ Reading list:
 - MULTITASK PROMPTED TRAINING ENABLES ZERO-SHOT TASK GENERALIZATION
 - Emergent Abilities of Large Language Models
 - Don’t Stop Pretraining: Adapt Language Models to Domains and Tasks
+
+## Experiments log
+| Model | Quantization |Input | Input Tokens | Output Max Tokens | Time per request | RAM usage |
+| -------- |-------- | --------- | -------- | --------- | -------- | --------- |
+| LLM-2-7b-chat-GGUF | Q3_K_S |        | 36 | 16 | 1.7s | 0.33G |
+| LLM-2-7b-chat-GGUF | Q3_K_S |        | 36 | 32 | 3.5s | 0.4G |
+| LLM-2-7b-chat-GGUF | Q3_K_S |        | 36 | 128 | 13.7s | 0.4G |
+| LLM-2-7b-chat-GGUF | Q6_K |       | 36 | 32 | 4.6s | 0.3G |
+| LLM-2-7b-chat-GGUF | Q6_K |       | 36 | 128 | 22.0s | 0.4G |
+| LLM-2-7b-chat-GGUF | Q8_0 |       | 36 | 16 | 2.9s | 0.3G |
+| LLM-2-7b-chat-GGUF | Q8_0 |       | 36 | 32 | 5.8s | 1.7G |
+| LLM-2-7b-chat-GGUF | Q8_0 |       | 36 | 128 | 24.0s | 2G |
