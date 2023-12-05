@@ -58,7 +58,7 @@ pair where the kth value is the kth quantile of the source tensor. It's informat
 
 ## Stanford CS244N
 
-> ❓ attention quadratic complexity problem?
+> ❓ attention quadratic complexity problem? since increase the context window will cause incur higher computational complexity
 
 > ❓ mT5: exact same model but trained on multilingual corpus.
 
