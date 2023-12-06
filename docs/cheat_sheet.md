@@ -9,6 +9,7 @@
 7. python double backslash: python interpret "\\\\" as single backslash "\\" .
 
 ## python GIL mechanisms
+
 1. time out function on windows system:
 ```python
 import concurrent.futures as futures
@@ -19,6 +20,11 @@ with futures.ThreadPoolExecutor(max_workers=1) as executor:
     executor._threads.clear()
     futures.thread._threads_queues.clear()
 ```
+
+## Linux
+
+1. list stuff at the current directory with size: `ll -h`
+2. list size recursively: `du -sh *`
 
 
 ## other
@@ -57,7 +63,7 @@ def ignore_request_warning(warning):
     return decorator
 ```
 
-6. bitsandbytes might has some problem with running no V100. Set with `torch.autocast("cuda"):`{:.python} before training the trainer. [More info](https://github.com/TimDettmers/bitsandbytes/issues/240)
+6. bitsandbytes might has some problem with running no V100. Set with `torch.autocast("cuda"):` before training the trainer. [More info](https://github.com/TimDettmers/bitsandbytes/issues/240)
 7. [Model save weight](https://github.com/huggingface/peft/issues/286#issuecomment-1501617281)
 8. peft model merge and unload.
 9. repeatition of data hurts naive bayes
