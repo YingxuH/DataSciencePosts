@@ -3,6 +3,8 @@
 - [Architecture](#architecture)
   - [Embeddings](#embeddings)
   - [Attention](#attention)
+    - [Flash Attention](#flash-attention)
+    - [Sparse Attention](#sparse-attention)
   - [Point-wise Feed forward layer](#point-wise-feed-forward-layer)
 - [Pretraining](#pretraining)
   - [Pre-training objectives](#pre-training-objectives)
@@ -17,6 +19,11 @@
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
 
+- **Encoder**: Fully visiable structure. No Causal mask.
+- **Decoder**: Tokens appearing at subsequent times are masked.
+- **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visible to each other, while tokens in the real input can only see the preceding tokens.
+
+
 ### Embeddings 
 Compared to traditional RNNs, the sequential feature of the input is not taken care of by the recurrent process. On the contrary, positional embedding handles this. 
 
@@ -26,9 +33,12 @@ The embedding matrix is shared between the input embedding and the output classi
 > [!NOTE]  
 > It Might be quite obvious, but I still want to note here: shared matrix is used for each token in the sequence.
 
-- **Encoder**: Fully visiable structure. No Causal mask.
-- **Decoder**: Tokens appearing at subsequent times are masked.
-- **Predix LM** (T5): Tokens representing the input prefix/instruction are fully visible to each other, while tokens in the real input can only see the preceding tokens.
+Time Complexity: $O(N^2.d^2)$
+
+#### Flash Attention
+
+#### Sparse Attention
+
 
 ### Point-wise Feed forward layer
 - **Expand layer**: (d_model, d_ffn)
