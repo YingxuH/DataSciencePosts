@@ -1,14 +1,17 @@
 ## Table of Content
+- [Table of Content](#table-of-content)
 - [Architecture](#architecture)
-  * [Embeddings](#embeddings)
-  * [Attention](#attention)
-  * [Point-wise Feed forward layer](#point-wise-feed-forward-layer)
+  - [Embeddings](#embeddings)
+  - [Attention](#attention)
+  - [Point-wise Feed forward layer](#point-wise-feed-forward-layer)
 - [Pretraining](#pretraining)
-  * [Pre-training objectives](#pre-training-objectives)
-    + [Denoising objective](#denoising-objective)
-    + [Language model objective](#language-model-objective)
+  - [Pre-training objectives](#pre-training-objectives)
+    - [Denoising objective](#denoising-objective)
+    - [Language model objective](#language-model-objective)
 - [Quantization](#quantization)
+  - [GPTQ](#gptq)
 - [Stanford CS244N](#stanford-cs244n)
+- [Experiments log](#experiments-log)
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
@@ -67,11 +70,13 @@ For each row of $d_{out}$ in $W$, calculate a Hessian matrix $H_{F}$ for the set
 
 ![formula]()
 
-The process is done iteratively for each input parameter and each output parameter, based on the observation that there is no hessian interaction between different output weights, or $\frac{\partial^{2}f}{\partial{w_{i,j}}\partial{w_{i',j}}}$ = 0. The Hessian matrix takes $O(N.d_{in}^2)$ time to construct and $O(d_{in}^2)$ time to update its inverse $H_{F}^{-1}$ for each step of removing the row and column $p$. The whole process takes $O(N.d_{in}^2 + d_{out}.k.d_{in}^2)$ time, or simply $O(d_{out}.k.d_{in}^2)$ or $O(d_{out}.d_{in}^3)$ where $k$ stands for the number of input weights you want to quantize for each output weight. The algorithm
+The process is done iteratively for each input parameter and each output parameter, based on the observation that there is no hessian interaction between different output weights, or $\frac{\partial^{2}f}{\partial{w_{i,j}}\partial{w_{i',j}}}$ = 0. The process takes $O(N.d_{in}^2)$ time to construct the Hessian matrix, $O(d_{in})$ time to find the next optimal parameter, $O(d_{in})$ time to update the remaining parameters, and $O(d_{in}^2)$ time to update its inverse $H_{F}^{-1}$ for each step of removing the row and column $p$. The whole process takes $O(N.d_{in}^2 + d_{out}.k(d_{in}^2 +d_{in}^2))$ time, or simply $O(d_{out}.k.d_{in}^2)$ or $O(d_{out}.d_{in}^3)$ where $k$ stands for the number of input weights you want to quantize for each output weight. Remember the Hessian matrix only needs to be calculated once for all rows. The detailed algorithm is shown below.
 
 **Adjustments**
 
-- **Arbitrary quantization order**: Greedily searching for the next optimal weight to quantize turns out with only marginal benefits over following an arbitrary order. 
+- **Arbitrary quantization order**: Greedily searching for the next optimal weight to quantize turns out with only marginal benefits over following an arbitrary order. Hence the cheap way is to simply follow the same order to quantize the input parameters for all the output rows. The $H^{-1}$ update process will be the same for all the rows, resulting in a time complexity of $O(d_{in}(d_{out}.d_{in} + d_{in}^2))$, where $O(d_{out}.d_{in})$ is time cost of updating the weights of each row at each time step. Simply, the time complexity can be written as $O(max({d_{out}.d_{in}^2, d_{in}^3)})$.
+- **lazy batch updates**: Batch process weights update process for a block of columns. This is based on the intuition that updating the entire weight matrix everytime quantizing one column will trigger too much data I/O process, which might be bottlenecked by the memory bandwidth. During calculation, weights within each batch will be fully updated first before combining their updates and applying to the rest of matrix. Hence, the time cost on updating weights will change from $O(d_{out}.d_{in}^2)$ to $O(d_{out}(\frac{d_{in}}{B}.B^2 + \frac{d_{in}^2}{B}))$, where the first term represent steps calculating the within-batch process and the second term represents the steps updating the weights outside batches. When B is approaching $d_{in}$, the I/O bottleneck caused by the second term will be deminished while the first term turns into the heavy one. On the contrary, the cost reduction on the second term would be trivial if B is too small, so we need to considering the balance between the two terms while determining the value of B. 128 is used in the paper.
+- **Cholesky Reformation**: The inverse Hessian matrix can be pre-computed leveraging Cholesky decomposition, further reducing the total complexity to  $O(d_{out}.d_{in}^2)$.
 
 
 
