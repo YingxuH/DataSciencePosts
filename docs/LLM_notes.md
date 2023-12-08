@@ -10,6 +10,7 @@
     - [Language model objective](#language-model-objective)
 - [Quantization](#quantization)
   - [GPTQ](#gptq)
+  - [AWQ](#awq)
 - [Stanford CS244N](#stanford-cs244n)
 - [Experiments log](#experiments-log)
 
@@ -81,6 +82,8 @@ The process is done iteratively for each input parameter and each output paramet
 - **Cholesky Reformation**: The inverse Hessian matrix can be pre-computed leveraging Cholesky decomposition, further reducing the total complexity to  $O(d_{out}.d_{in}^2)$.
 
 <img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+
+### AWQ
 
 ## Stanford CS244N
 
