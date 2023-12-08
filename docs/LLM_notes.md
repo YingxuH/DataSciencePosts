@@ -68,9 +68,11 @@ Firstly, the optimization approach focuses on each layer: a $d_{out} \times d_{i
 
 For each row of $d_{out}$ in $W$, calculate a Hessian matrix $H_{F}$ for the set of intact input weights $F$, where $H_{F} = 2X_{F}X_{F}^{T}$. Find the optimal greedy-optimal weight $w_{q}$ to quantize next and the updates to the remaining weights $\delta_{F}$ by the following formula. 
 
-![formula]()
+<img src="../images/obs_formula.png" alt="obs_formula" width="450"/>
 
 The process is done iteratively for each input parameter and each output parameter, based on the observation that there is no hessian interaction between different output weights, or $\frac{\partial^{2}f}{\partial{w_{i,j}}\partial{w_{i',j}}}$ = 0. The process takes $O(N.d_{in}^2)$ time to construct the Hessian matrix, $O(d_{in})$ time to find the next optimal parameter, $O(d_{in})$ time to update the remaining parameters, and $O(d_{in}^2)$ time to update its inverse $H_{F}^{-1}$ for each step of removing the row and column $p$. The whole process takes $O(N.d_{in}^2 + d_{out}.k(d_{in}^2 +d_{in}^2))$ time, or simply $O(d_{out}.k.d_{in}^2)$ or $O(d_{out}.d_{in}^3)$ where $k$ stands for the number of input weights you want to quantize for each output weight. Remember the Hessian matrix only needs to be calculated once for all rows. The detailed algorithm is shown below.
+
+<img src="../images/obs_algo.png" alt="obs_formula" width="350"/>
 
 **Adjustments**
 
@@ -78,7 +80,7 @@ The process is done iteratively for each input parameter and each output paramet
 - **lazy batch updates**: Batch process weights update process for a block of columns. This is based on the intuition that updating the entire weight matrix everytime quantizing one column will trigger too much data I/O process, which might be bottlenecked by the memory bandwidth. During calculation, weights within each batch will be fully updated first before combining their updates and applying to the rest of matrix. Hence, the time cost on updating weights will change from $O(d_{out}.d_{in}^2)$ to $O(d_{out}(\frac{d_{in}}{B}.B^2 + \frac{d_{in}^2}{B}))$, where the first term represent steps calculating the within-batch process and the second term represents the steps updating the weights outside batches. When B is approaching $d_{in}$, the I/O bottleneck caused by the second term will be deminished while the first term turns into the heavy one. On the contrary, the cost reduction on the second term would be trivial if B is too small, so we need to considering the balance between the two terms while determining the value of B. 128 is used in the paper.
 - **Cholesky Reformation**: The inverse Hessian matrix can be pre-computed leveraging Cholesky decomposition, further reducing the total complexity to  $O(d_{out}.d_{in}^2)$.
 
-
+<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
 
 ## Stanford CS244N
 
