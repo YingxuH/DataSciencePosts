@@ -2,6 +2,8 @@
 - [Table of Content](#table-of-content)
 - [Architecture](#architecture)
   - [Embeddings](#embeddings)
+    - [Positional Embeddings](#positional-embeddings)
+      - [ROPE](#rope)
   - [Attention](#attention)
     - [Flash Attention](#flash-attention)
     - [Sparse Attention](#sparse-attention)
@@ -28,6 +30,10 @@ Up to 2023, most of the trending LMs follow the transformer architecture.
 Compared to traditional RNNs, the sequential feature of the input is not taken care of by the recurrent process. On the contrary, positional embedding handles this. 
 
 The embedding matrix is shared between the input embedding and the output classification process.
+
+#### Positional Embeddings
+
+##### ROPE 
 
 ### Attention
 > [!NOTE]  
