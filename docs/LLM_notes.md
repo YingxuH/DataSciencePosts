@@ -33,9 +33,21 @@ The embedding matrix is shared between the input embedding and the output classi
 > [!NOTE]  
 > It Might be quite obvious, but I still want to note here: shared matrix is used for each token in the sequence.
 
-Time Complexity: $O(N^2.d^2)$
+**Time Complexity** (scaled dot product attention): 
+- Linear projection from embedding to K, Q, V: $O(N.d^2)$, assuming the simplest case without multihead set up.
+- Q x K for the attention matrix: $O(N^{2}.d)$
+- Softmax x V for the updated values: $O(N^{2}.d)$
+- In total: $O(N^{2}.d + N.d^2)$
+
+> [!NOTE]  
+> For additive attention, the similarity function can be represented as $s(Q, K) = V^{T}tanh(W[Q;K])$, where $W$ should has the shape of $d \times d$ and $V$ of $d \times N$, which results in a time complexity of $O(N^{2}.d^{2})$
+
 
 #### Flash Attention
+
+- The attention operation is bottlenecked by the memory I/O speed of the HBM.
+- Split the input into blocks and make several passes over input blocks. Perform the softmax function incrementally without saving the entire matrix to memory. 
+- Store the softmax normalization factor for backward passing, which is faster than directing reading the attention matrix from the memory.
 
 #### Sparse Attention
 
