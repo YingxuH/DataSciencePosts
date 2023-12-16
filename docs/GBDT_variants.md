@@ -1,5 +1,22 @@
 # Gradient Boosting Tree and its variants.
 
+- [Gradient Boosting Tree and its variants.](#gradient-boosting-tree-and-its-variants)
+  - [Heuristics](#heuristics)
+  - [XGBoost](#xgboost)
+    - [Tree construction based on boosting and second-order gradients](#tree-construction-based-on-boosting-and-second-order-gradients)
+    - [Split finding strategies](#split-finding-strategies)
+      - [Exact Greedy Algorithm](#exact-greedy-algorithm)
+      - [Approximation Algorithm](#approximation-algorithm)
+        - [Weighted Quantile sketch](#weighted-quantile-sketch)
+        - [Sparse-aware design](#sparse-aware-design)
+        - [Global vs local proposals](#global-vs-local-proposals)
+    - [Block structure](#block-structure)
+    - [Time complexity](#time-complexity)
+  - [Light GBM](#light-gbm)
+    - [GOSS](#goss)
+    - [Exclusive Feature Bundling](#exclusive-feature-bundling)
+
+
 Constructing the normal tree structures takes the information theory approach, and splits on each node to maximize the information gain or entropy. Each leave node has a value of the average $\overline{y}$ value or majority class of the training instances falling into that leave. 
 
 Different from CART and previous tree structures, gradient-boosting tree structure
@@ -53,7 +70,7 @@ Through the additive tree construction process, XGBoost also supports:
 - tree shrinkage. This works like a learning rate, a small multiplier for the weights in each tree to prevent each tree from growing too sophisticated. It alleviates overfitting, or "variance" of the model. It also allows building more trees.
 - column subsampling. This is a "bagging" like strategy applying to features, again for the sake of reducing overfitting or lowering model variance.   
 
-# Split finding strategies
+### Split finding strategies
 
 #### Exact Greedy Algorithm
 
