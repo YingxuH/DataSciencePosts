@@ -26,25 +26,25 @@ Different from CART and previous tree structures, gradient-boosting tree structu
 
 The loss function can be formulated as: 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/original_loss.png" alt="obs_formula" width="300"/>
 
 Using Taylor expansion, the formula can be transformed into the following equation. Note that the expansion is just an approximation to the solution. 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/taylor_expansion_loss.png" alt="obs_formula" width="450"/>
 
 To further simplify, 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/loss_simplified.png" alt="obs_formula" width="400"/>
 
 Where $T$ represents the number of leaves, and $I_{j}$ is actually a set of training instances falling into leave $j$. 
 
 Given the split been made, the weights for the emerged nodes could be 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/optimal_weights.png" alt="obs_formula" width="200"/>
 
 Note that they might not be realized except in the last iteration of tree construction. Showing their value here just to define the gradient score of the entire sub-structure: 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/structure_score.png" alt="obs_formula" width="300"/>
 
 > [!note]
 > Normalization is implemented here to prevent overfitting. Works like pruning. We could include both L1 and L2 for the real implementation. 
@@ -78,7 +78,7 @@ Instead of scanning through the entire dataset, you can propose some quantile ca
 
 The weight of each data entry is not simply 1 in this case. Instead, a rank function based on the gradients is defined as the weights:
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/weighted_quantile_sketch.png" alt="obs_formula" width="450"/>
 
 The intuition here is to reduce the impact of low-gradient entries during split finding. Intuitively, the low gradient and high gradient points will be clustered in terms of their $x$ value. Doing this will insert more candidate grids into high-gradient clusters, resulting in a more granular split comparison among the high-gradient $x$ values and, thus, a better resolution regarding the loss reduction. This design has the same spirit as the GOSS algorithm.  
 
@@ -91,7 +91,7 @@ XGBoost deals with the split of missing values or 0 values through learning. I.e
 
 Additionally, this strategy reduces the time complexity factor of split finding from $O(n)$ to $O(\\|x\\|\_{0})$, which is the number of non-missing data for each feature. It is done by actively pushing the data to the left set or right set, while leaving the rest of the data, including the missing ones, to the other set. Details are here: 
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/sparse_aware_split.png" alt="obs_formula" width="400"/>
 
 ##### Global vs local proposals
 
@@ -132,7 +132,7 @@ For the approximation method, different subsets of rows will be stored in differ
 
 Taking gradients as the weights of the data points. So basically, this is to ignore the detailed distribution of small gradient data points (they are trivial to your decision-making). Can it be considered as the non-support vector? same idea applied in the llm.int8()!
 
-<img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
+<img src="../images/goss.png" alt="obs_formula" width="600"/>
 
 Actually, they are already squeezed by the approximation method proposed in XGBoost. 
 
