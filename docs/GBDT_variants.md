@@ -1,6 +1,7 @@
 # Gradient Boosting Tree and its variants.
 
 - [Gradient Boosting Tree and its variants.](#gradient-boosting-tree-and-its-variants)
+  - [Introduction](#introduction)
   - [Heuristics](#heuristics)
   - [XGBoost](#xgboost)
     - [Tree construction based on boosting and second-order gradients](#tree-construction-based-on-boosting-and-second-order-gradients)
@@ -16,6 +17,7 @@
     - [GOSS](#goss)
     - [Exclusive Feature Bundling](#exclusive-feature-bundling)
 
+## Introduction
 
 Constructing the normal tree structures takes the information theory approach, and splits on each node to maximize the information gain or entropy. Each leave node has a value of the average $\overline{y}$ value or majority class of the training instances falling into that leave. 
 
@@ -32,10 +34,11 @@ Different from CART and previous tree structures, gradient-boosting tree structu
 
 ## Heuristics
 
-- DART achieves better shrinkage than GBtree, as they adopted dropout.
-- Applying more trees and a slower learning rate could be a good approach. 
+- DART achieves better shrinkage than GBtree, as they adopted dropout. For each iteration of tree construction, it subsample the prior trees into $D$, and apply a momentum-like coefficient to shrink its impact.  
+- Applying more trees and a slower learning rate could be a good approach. Start with an extremely low leanring rate and tune the number of trees iteratively through cross-validation. 
 - Large-dimension categorical data will increase the computation time significantly. Especially for long-tailed features, which will cause overfitting in that field. Could consider merging categories and various numerical encoding methods. 
 - Tree depth, minimal leave size affect the performance a lot. Help reduce overfitting. 
+- Time complexity of xgb compared to other models?
 
 ## XGBoost 
 
