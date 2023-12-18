@@ -13,8 +13,10 @@
     - [Denoising objective](#denoising-objective)
     - [Language model objective](#language-model-objective)
 - [Quantization](#quantization)
+  - [LLM.int8()](#llmint8)
   - [GPTQ](#gptq)
   - [AWQ](#awq)
+  - [Llama CPP](#llama-cpp)
 - [Stanford CS244N](#stanford-cs244n)
 - [Experiments log](#experiments-log)
 
@@ -88,10 +90,20 @@ FP32 and bFP16 (BrainFP16) don't have differences in their ranges.
 - **Normal float 4**: In layman's terms, instead of using the normal "sign-exponent-mantissa" schema to represent actual values, the normal float data type keeps an index value
 pair where the kth value is the kth quantile of the source tensor. It's information-theoretically optimal, as they claim!
 
+### LLM.int8()
+
+- It generalizes the block quantization into row/column wise quantization.
+- Currently quite slow duel to these [reasons](https://github.com/TimDettmers/bitsandbytes/issues/6#issuecomment-1211345635): 
+  - The current CUDA kernel is not optimized for outlier extraction.
+  - the int8 and fp16 matrix multiplication is run in sequential manner rather than parallel manner. 
+  - fp16 matrix multiplication kernel not optimized for extreme matrix sizes. 
+  - Interesting view point: int8 matmul might not be much faster than fp16 operations as its difficult to saturate the GPU cores for small models. However, int8 still has overhead occured by the offset parameter. 
+
 ### GPTQ
 GPTQ is dedicated to quantizing the parameters and updating the weights of other precise parameters to achieve minimal loss derivation compared to the original loss. Generally, any quantization method, such as 8bit, 4bit, etc., can be applied in this case.
 
 Firstly, the optimization approach focuses on each layer: a $d_{out} \times d_{in}$ weight $W$. Secondly, the GPTQ proposes several adjustments based on the Optimal Brain Quantization (OBQ) approach to improve its efficiency and precision. 
+
 
 **Summarization of OBQ**
 
@@ -112,6 +124,19 @@ The process is done iteratively for each input parameter and each output paramet
 <img src="../images/gptq_algo.png" alt="obs_formula" width="600"/>
 
 ### AWQ
+
+### Llama CPP
+
+- [original 4-bit quantization](https://github.com/ggerganov/ggml/pull/27). Intuitively, $QK_0$ stands for absmax quantization while $QK_1$ stands for zero-point quantization. The extra offset parameter in zero-point quantization grants more freedom for the quantized range and thus could save more range, but at a higher computation cost.
+- [The original range as a scaling parameter can be adjusted](https://github.com/ggerganov/llama.cpp/issues/397). Based on [this paper](https://arxiv.org/pdf/1712.05877.pdf), people tends to use moving averate for the max and min of activations. 
+
+> [!NOTE]  
+> You can actually determine the range by reconstruction RMSE, etc. Further discussed [here](https://github.com/ggerganov/llama.cpp/pull/835) and [here](https://github.com/ggerganov/llama.cpp/pull/896).
+
+- [k quantization](https://github.com/ggerganov/llama.cpp/pull/1684): It uses various different set ups of block quantization, with variances of applying a mixture of quantization strategy on different tensors.
+
+> [!NOTE]  
+> The general insight is that the lower the quantization bits, the faster speed the model will be. 
 
 ## Stanford CS244N
 
