@@ -131,7 +131,7 @@ Linear model has a hard time dealing with
 
 - **ANOVA**: test the covariance between the independent and dependent variable, the stats is $F$, comes with a $p$. Normally also used in LR to examine whether any of the coefficients is larger than 0.
 
-- **Information Value**: between categorical and categorical features. [Based on WOE.](https://blog.csdn.net/kevin7658/article/details/50780391#:~:text=WOE%E7%9A%84%E5%85%A8%E7%A7%B0%E6%98%AF%E2%80%9CWeight,%E7%9A%84%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E6%84%8F%E6%80%9D%EF%BC%89%E3%80%82) The WOE value represents the difference between local logit to global logit, and its statistical significance can be quantified by the p-value from chi-square test. The multiplier term bears information about group size ($\frac{\\#yes}{total\\#yes} - \frac{\\#no}{total\\#no}$), which signifies the ratio between the category size and total number of data.
+- **Information Value**: between categorical and categorical features. [Based on WOE.](https://blog.csdn.net/kevin7658/article/details/50780391#:~:text=WOE%E7%9A%84%E5%85%A8%E7%A7%B0%E6%98%AF%E2%80%9CWeight,%E7%9A%84%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E6%84%8F%E6%80%9D%EF%BC%89%E3%80%82) The WOE value represents the difference between local logit to global logit, and its statistical significance can be quantified by the p-value from chi-square test. The multiplier term bears information about group size ($\frac{\\#yes}{total\\#yes} - \frac{\\#no}{total\\#no}$), which signifies the ratio between the category size and total number of data. The strength of the predictor can be quantified by the effect size stats.
 
 - **Distance based coefficient**: 
 
