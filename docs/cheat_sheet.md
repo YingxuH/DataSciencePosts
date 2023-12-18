@@ -108,19 +108,19 @@ Linear model has a hard time dealing with
 - **pearson coefficient**: only deals with linear correlation. 
 
 > [!note]
-> easily gets to 0 when the 2d relationship is nearly vertical or horizontal.
+> easily reaches 0 when the 2D relationship is nearly vertical or horizontal.
 
 - **spearman rank coefficient**: still only monotonic relationship. But the assumption is not strict as you can still try to detect the monotonic components from non-monotonic relations or you simply don't know anything about data. Below is the formula where $n$ is number of data and $d$ is the difference between paired ranks. 
 
 ![Alt text](image-2.png)
 
 
-- **mutual information coefficient**: robust against the form of relations and noises in data. If data is more concentrated in the x-y region, the $log$ term will depart further from 1, and the score is weighted by the probability again. Again increase the buckets will increase the score, so normalize the score by the number of buckets. Can be interpreted as $D_{KL}(p(x, y)\\|p(x)p(y))$.
+- **mutual information coefficient**: robust against the form of relations and noises in data. If data is more concentrated in the x-y region, the $log$ term will depart further from 1, and the score is weighted by the probability again. Again increasing the buckets will increase the score, so normalize the score by the number of buckets. Can be interpreted as $D_{KL}(p(x, y)\\|p(x)p(y))$.
   
 ![Alt text](<Screenshot 2023-12-17 at 8.23.22 PM.png>)
 
 > [!note]
-> Still mutual information at this step, unable to compare accross features.
+> Still mutual information at this step, unable to compare across features.
 
 ![Alt text](image.png)
 
@@ -131,7 +131,7 @@ Linear model has a hard time dealing with
 
 - **ANOVA**: test the covariance between the independent and dependent variable, the stats is $F$, comes with a $p$. Normally also used in LR to examine whether any of the coefficients is larger than 0.
 
-- **Information Value**: between categorical and categorical features. [Based on WOE.](https://blog.csdn.net/kevin7658/article/details/50780391#:~:text=WOE%E7%9A%84%E5%85%A8%E7%A7%B0%E6%98%AF%E2%80%9CWeight,%E7%9A%84%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E6%84%8F%E6%80%9D%EF%BC%89%E3%80%82)
+- **Information Value**: between categorical and categorical features. [Based on WOE.](https://blog.csdn.net/kevin7658/article/details/50780391#:~:text=WOE%E7%9A%84%E5%85%A8%E7%A7%B0%E6%98%AF%E2%80%9CWeight,%E7%9A%84%E9%83%BD%E6%98%AF%E4%B8%80%E4%B8%AA%E6%84%8F%E6%80%9D%EF%BC%89%E3%80%82) The WOE value represents the difference between local logit to global logit, and its statistical significance can be quantified by the p-value from chi-square test. The multiplier term bears information about group size ($\frac{\\#yes}{total\\#yes} - \frac{\\#no}{total\\#no}$), which signifies the ratio between the category size and total number of data. The strength of the predictor can be quantified by the effect size stats.
 
 - **Distance based coefficient**: 
 
