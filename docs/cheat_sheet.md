@@ -112,21 +112,21 @@ Linear model has a hard time dealing with
 
 - **spearman rank coefficient**: still only monotonic relationship. But the assumption is not strict as you can still try to detect the monotonic components from non-monotonic relations or you simply don't know anything about data. Below is the formula where $n$ is number of data and $d$ is the difference between paired ranks. 
 
-![Alt text](image-2.png)
+![Alt text](../images/spearman.png)
 
 
 - **mutual information coefficient**: robust against the form of relations and noises in data. If data is more concentrated in the x-y region, the $log$ term will depart further from 1, and the score is weighted by the probability again. Again increasing the buckets will increase the score, so normalize the score by the number of buckets. Can be interpreted as $D_{KL}(p(x, y)\\|p(x)p(y))$.
   
-![Alt text](<Screenshot 2023-12-17 at 8.23.22 PM.png>)
+![Alt text](../images/mutual_information.png)
 
 > [!note]
 > Still mutual information at this step, unable to compare across features.
 
-![Alt text](image.png)
+![Alt text](../images/mic.png)
 
 - **chi square information**: the correlation between categorical features. 
 
-![Alt text](image-1.png)
+![Alt text](../images/chi-square-formula.png)
 
 
 - **ANOVA**: test the covariance between the independent and dependent variable, the stats is $F$, comes with a $p$. Normally also used in LR to examine whether any of the coefficients is larger than 0.
