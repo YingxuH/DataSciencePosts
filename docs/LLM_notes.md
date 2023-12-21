@@ -1,5 +1,6 @@
 ## Table of Content
 - [Table of Content](#table-of-content)
+- [Heuristics](#heuristics)
 - [Architecture](#architecture)
   - [Embeddings](#embeddings)
     - [Positional Embeddings](#positional-embeddings)
@@ -19,6 +20,10 @@
   - [Llama CPP](#llama-cpp)
 - [Stanford CS244N](#stanford-cs244n)
 - [Experiments log](#experiments-log)
+
+## Heuristics
+- gradient checkpointing can greatly reduce the memory cost
+- distributed training doesn't support gradient checkpointing.
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
