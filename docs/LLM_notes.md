@@ -24,6 +24,7 @@
 ## Heuristics
 - gradient checkpointing can greatly reduce the memory cost
 - distributed training doesn't support gradient checkpointing.
+- Both Lora and p-tuning v2 are likely to cause the model to overfit to your sft dataset. Recommended to add common sense dataset. More details [here](https://zhuanlan.zhihu.com/p/622810394)
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
