@@ -13,6 +13,8 @@
   - [Pre-training objectives](#pre-training-objectives)
     - [Denoising objective](#denoising-objective)
     - [Language model objective](#language-model-objective)
+- [Parallelism](#parallelism)
+  - [DeepSpeed (ZeRO)](#deepspeed-zero)
 - [Quantization](#quantization)
   - [LLM.int8()](#llmint8)
   - [GPTQ](#gptq)
@@ -87,6 +89,35 @@ corrupt the input sequence and reproduce it in the output.
 
 - **Teacher Forcing**: Each token is predicted given the input tokens extracted from the ground truth sequence. **Likely to cause repetition in decoding.**
 - **Curriculum Learning**: Randomly choose to use the ground truth output or the generated output from the previous time step as input for the current time step.
+
+
+## Parallelism
+
+> :question: Directly use the built-in model parallelism might be faster than deepspeed? Need further experimentation.
+
+### DeepSpeed (ZeRO)
+
+- **Stage 1**:
+- **Stage 2**:
+- **Stage 3**:
+- **Zero Infinity**: It extends Zero-3 to SSD offloading, with the support of NVMe protocol. It has more effective communication and bandwidth utilization compared to Zero-3. Due to the smart paritioning and tiling algorithm, there is only small amount of communication required for offloading data to SSD. This stage reuquires stage-3 to be enabled. 
+
+**Single card improvement**
+
+- ZeRO-offload is able to reduce memory usage even for single GPU card by offloading to CPU. 
+- Improved fragmented memory management. 
+
+**Mutli-node training**
+
+DeepSpeed will automatically propagate all the related environmental variables to all relevant nodes, you can also specify any other variables that you want DeepSpeed to propagate before running the program. However, the detailed python environment and the assets won't be automatically shared. Some manual work might need to be done. 
+
+**Parameters**
+
+There are a wide range of common parameters between huggingface transformers and deepspeed configuration. Whenever a value for any parameter has been set in the huggingface config, you can pass `auto` in as the deepspeep config value. 
+
+- `overlap_comm`: whether or not overlap the reduction of the gradients with backward computation. 
+- `use_node_local_storage`: set to `true` if save the relevant model states on each local machine instead of performing the gather operation. Equivalent to the `save_on_each_node` argument of the huggingface trainer.
+- `allgather_bucket_size` or `reduce_bucket_size`: the number of elements transmitted at a single time during the gather/reduce process. larger bucket size will have faster communication speed but larger memory footprint. Affects the memory requirement for the gather/reduce process.
 
 ## Quantization
 It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 

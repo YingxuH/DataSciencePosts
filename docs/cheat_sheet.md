@@ -70,6 +70,7 @@ def ignore_request_warning(warning):
 why is naive bayes generative models? what is generative and discriminative model?
 logistic classification can be viewed as nn, or directed graphical model! 
 why crf is discriminative?
+10. Volatile memory refers to RAM, normally used as primary storage. Non-volatile memory normally refers to the mass memory stored in hard disk drive. The NVMe protocol leverages the parallelism capability of the current SSD and achieved much shorter latency compared to the AHCI protocol based on HDD. 
 
 ## Heurisics
 Linear model has a hard time dealing with 
