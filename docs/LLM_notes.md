@@ -115,7 +115,8 @@ DeepSpeed will automatically propagate all the related environmental variables t
 
 There are a wide range of common parameters between huggingface transformers and deepspeed configuration. Whenever a value for any parameter has been set in the huggingface config, you can pass `auto` in as the deepspeep config value. 
 
-- `overlap_comm`: whether or not overlap the reduction of the gradients with backward computation. 
+- `overlap_comm`: whether or not overlap the reduction of the gradients with backward computation. Recommended to set as `True`.
+- `reduce scatter`: Set to true to distribute the gradients of each partition to each device, otherwise will use allreduce. Recommended for stage 2. 
 - `use_node_local_storage`: set to `true` if save the relevant model states on each local machine instead of performing the gather operation. Equivalent to the `save_on_each_node` argument of the huggingface trainer.
 - `allgather_bucket_size` or `reduce_bucket_size`: the number of elements transmitted at a single time during the gather/reduce process. larger bucket size will have faster communication speed but larger memory footprint. Affects the memory requirement for the gather/reduce process.
 - `stage3_max_live_parameters`: the maxnimal number of parameters resident on each GPU before releasing. Smaller values use less memory, but requires more communication cost.
