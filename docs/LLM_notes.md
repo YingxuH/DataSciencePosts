@@ -93,11 +93,11 @@ corrupt the input sequence and reproduce it in the output.
 
 ## Parallelism
 
-> :question: Directly use the built-in model parallelism might be faster than deepspeed? Need further experimentation.
+> :question: Directly use `DDP` might be faster than deepspeed? Probably simply stage-0?
 
 ### DeepSpeed (ZeRO)
-
-- **Stage 1**:
+- **Stage 0**: Same as Distributed Data Parallel, since only data will be paritioned. 
+- **Stage 1**: 
 - **Stage 2**:
 - **Stage 3**:
 - **Zero Infinity**: It extends Zero-3 to SSD offloading, with the support of NVMe protocol. It has more effective communication and bandwidth utilization compared to Zero-3. Due to the smart paritioning and tiling algorithm, there is only small amount of communication required for offloading data to SSD. This stage reuquires stage-3 to be enabled. 
@@ -118,6 +118,19 @@ There are a wide range of common parameters between huggingface transformers and
 - `overlap_comm`: whether or not overlap the reduction of the gradients with backward computation. 
 - `use_node_local_storage`: set to `true` if save the relevant model states on each local machine instead of performing the gather operation. Equivalent to the `save_on_each_node` argument of the huggingface trainer.
 - `allgather_bucket_size` or `reduce_bucket_size`: the number of elements transmitted at a single time during the gather/reduce process. larger bucket size will have faster communication speed but larger memory footprint. Affects the memory requirement for the gather/reduce process.
+- `stage3_max_live_parameters`: the maxnimal number of parameters resident on each GPU before releasing. Smaller values use less memory, but requires more communication cost.
+- `stage3_max_reuse_distance`: Do not release a parameter if it will be reused within this threshold of parameters. Smaller values use less memory, but requires more communication cost. Useful for the activation checkpointing strategy.
+
+> [!note] 
+> Try to reduce `stage3_max_live_paremeter` and `stage3_max_reuse_distance` for OOM situations. They won't affect too much of the communication and overall performance unless actication checkpointing is used. They share the same memory buckets, where a value of 1e9 will likely take ~2GB memory.
+
+- `stage3_gather16bit_weights_on_model_save`: Gather the weights partitioned across multiple GPUs. :question: is this necessary for multi-node training?
+- `stage3_param_persistence_threshold`: Do not partition paramters smaller than this threshold. Smaller values use less memory but will incur more communication cost. Set a large value to reduce the communication latency if you have enough memory. E.g. $6 \times hidden\_size^2$
+- `sub_group_size`: Controls the granularity of the optimizer update steps. It also controls the granularity of the CPU-offloading process.
+- `amp`: might improve the resource management process. 
+
+> [!important]
+> Switch to `bf16` or `fp32` once the loss becomes NaN.
 
 ## Quantization
 It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 
