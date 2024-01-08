@@ -15,6 +15,9 @@
     - [Language model objective](#language-model-objective)
 - [Parallelism](#parallelism)
   - [DeepSpeed (ZeRO)](#deepspeed-zero)
+- [Finetuning](#finetuning)
+  - [Gradient Accumulation](#gradient-accumulation)
+  - [Gradient Checkpoint](#gradient-checkpoint)
 - [Quantization](#quantization)
   - [LLM.int8()](#llmint8)
   - [GPTQ](#gptq)
@@ -27,6 +30,7 @@
 - gradient checkpointing can greatly reduce the memory cost
 - distributed training doesn't support gradient checkpointing.
 - Both Lora and p-tuning v2 are likely to cause the model to overfit to your sft dataset. Recommended to add common sense dataset. More details [here](https://zhuanlan.zhihu.com/p/622810394)
+- The target modules required by the LoRA config must be consistent with the parameter names of each particular LLM. E.g. `k_proj`, `q_proj` for Llama.
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
@@ -132,6 +136,16 @@ There are a wide range of common parameters between huggingface transformers and
 
 > [!important]
 > Switch to `bf16` or `fp32` once the loss becomes NaN.
+
+## Finetuning
+
+### Gradient Accumulation
+- perform backward propagation at each step, accumulate the gradients for each trainable tensor.
+- The performance might deviate from the large batch method when batch normalization is [applied](https://jhc.sjtu.edu.cn/~bjiang/papers/Huang_CCGrid2023_GA.pdf). 
+- One should not blindly increase the accumulation steps as a having a too large batch size might also slow down the [convergence](https://jhc.sjtu.edu.cn/~bjiang/papers/Huang_CCGrid2023_GA.pdf). 
+
+### Gradient Checkpoint
+
 
 ## Quantization
 It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 
