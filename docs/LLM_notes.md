@@ -31,6 +31,8 @@
 - distributed training doesn't support gradient checkpointing.
 - Both Lora and p-tuning v2 are likely to cause the model to overfit to your sft dataset. Recommended to add common sense dataset. More details [here](https://zhuanlan.zhihu.com/p/622810394)
 - The target modules required by the LoRA config must be consistent with the parameter names of each particular LLM. E.g. `k_proj`, `q_proj` for Llama.
+- `model.enable_input_require_grads()`: make sure the input embeddings get updated during training. Useful for adapter-based finetuning like LoRA.
+- LLM like Llama processes obviously slower when the input tokens are more than 1024. Maybe some internal processing unit has a size of 1024? Like anything longer than that will require an additional processing unit?
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
