@@ -25,6 +25,7 @@ with futures.ThreadPoolExecutor(max_workers=1) as executor:
 
 1. list stuff at the current directory with size: `ll -h`
 2. list size recursively: `du -sh *`
+3. `df -h` shows the amount of free space left on a file system
 
 
 ## Other
