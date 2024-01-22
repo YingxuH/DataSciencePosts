@@ -26,6 +26,9 @@ with futures.ThreadPoolExecutor(max_workers=1) as executor:
 1. list stuff at the current directory with size: `ll -h`
 2. list size recursively: `du -sh *`
 3. `df -h` shows the amount of free space left on a file system
+4. `echo $SHELL` retrieve the current shell information.
+5. The vertical bar `|` connects a chain of separate commands.
+6. Terminal basically connects to a shell environment. All the command logic is the same as writing a bash file. E.g. you can define local variable and define functions.
 
 
 ## Other
