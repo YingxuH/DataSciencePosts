@@ -34,6 +34,7 @@
 - `model.enable_input_require_grads()`: make sure the input embeddings get updated during training. Useful for adapter-based finetuning like LoRA.
 - LLM like Llama processes obviously slower when the input tokens are more than 1024. Maybe some internal processing unit has a size of 1024? Like anything longer than that will require an additional processing unit?
 - `huggingface.trainer` provides a `predict` method to run prediction naturally, with all the deepspeed configurations. Dig in to find out the original code with deepspeed.
+- p tuning v2 is more likely to get loss overflow/underflow than lora.... dont know why
 
 ## Architecture
 Up to 2023, most of the trending LMs follow the transformer architecture. 
