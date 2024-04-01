@@ -1,0 +1,16 @@
+## Table of Content
+- [Table of Content](#table-of-content)
+- [Data Parallelism](#data-parallelism)
+- [Pipeline Parallelism](#pipeline-parallelism)
+- [Tensor Parallelism](#tensor-parallelism)
+
+## Data Parallelism
+Data Parallelism
+
+## Pipeline Parallelism
+- Use micro batch set up will reduce the bubble size, while increase the memory footprint due to activation cache (but why? isn't that the same as the use the entire batch at once?).
+- Use pipeDream Flush to schedule the first back-propagation right after the completion of the first forward propagation. Thus, each device's activation memory space is reduced from O(m) to O(p).
+- To further reduce the bubble size, one can adopt model chunks scheme. I.e. each device is assigned to multiple pipeline stages. It reduces the bubble time by $v$, but doesn't affect the ideal processing time. Hence the bubble fraction is reduced too. However, you need to communicate twice as frequent as before.
+
+## Tensor Parallelism
+- For column wise split, you still need to perform one all-reduce operation for attention and MLP parallelism, leading to two all-reduce for each of the forward and backward propagation **for each layer**. 
