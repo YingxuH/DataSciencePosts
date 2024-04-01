@@ -3,6 +3,8 @@
 - [Data Parallelism](#data-parallelism)
 - [Pipeline Parallelism](#pipeline-parallelism)
 - [Tensor Parallelism](#tensor-parallelism)
+- [Activation Recomputation](#activation-recomputation)
+- [Communication optimization](#communication-optimization)
 
 ## Data Parallelism
 Data Parallelism
@@ -14,3 +16,10 @@ Data Parallelism
 
 ## Tensor Parallelism
 - For column wise split, you still need to perform one all-reduce operation for attention and MLP parallelism, leading to two all-reduce for each of the forward and backward propagation **for each layer**. 
+
+## Activation Recomputation
+- The current implementation includes the non-reentrant and the reentrant variants, where the former uses the saved variable hooks from the compute graph, while the latter creates a mini-graph independent from the big graph for each time of the recomputation. The time complexity is generally O(sqrt(n)).
+- For pipeline parallelism, a reasonable solution is to discard all the intermediate activation cache while only keep the input activation for each of the pipeline stage.
+
+## Communication optimization
+- For tensor-pipeline parallelism across nodes, its possible to do the all reduce after the cross-node communication, which reduces the size of the tensors that you need to deliver, as they perform GPU-to-GPU direct communication.
