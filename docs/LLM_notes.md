@@ -75,6 +75,8 @@ The embedding matrix is shared between the input embedding and the output classi
 
 #### Sparse Attention
 
+Reduce the complexity from $O(n)$ to $O(n.sqrt(n))$
+- Strided Attention
 
 ### Point-wise Feed forward layer
 - **Expand layer**: (d_model, d_ffn)
@@ -109,6 +111,10 @@ corrupt the input sequence and reproduce it in the output.
 - **Stage 2**:
 - **Stage 3**:
 - **Zero Infinity**: It extends Zero-3 to SSD offloading, with the support of NVMe protocol. It has more effective communication and bandwidth utilization compared to Zero-3. Due to the smart paritioning and tiling algorithm, there is only small amount of communication required for offloading data to SSD. This stage reuquires stage-3 to be enabled. 
+
+### 1-bit Adam
+
+- [Reduce the communication burden](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/). Freeze the variance as constant and compress the momentum term. 
 
 **Single card improvement**
 
@@ -150,6 +156,8 @@ There are a wide range of common parameters between huggingface transformers and
 
 ### Gradient Checkpoint
 
+- Normally reduces the memory footprint from $O(n)$ to $O(sqrt(n))$
+
 
 ## Quantization
 It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 
@@ -167,6 +175,10 @@ pair where the kth value is the kth quantile of the source tensor. It's informat
   - the int8 and fp16 matrix multiplication is run in sequential manner rather than parallel manner. 
   - fp16 matrix multiplication kernel not optimized for extreme matrix sizes. 
   - Interesting view point: int8 matmul might not be much faster than fp16 operations as its difficult to saturate the GPU cores for small models. However, int8 still has overhead occured by the offset parameter. 
+
+### QLoRA
+
+- pay attention that all the frozen parameters are quantized into 4-bit and loaded as 16 bit during matrix operations. The newly obtained parameters is only coherent with the 4-bit parameters. You can load the obtained model in 16-bit. However, any quantization after that will severaly harm the performance. 
 
 ### GPTQ
 GPTQ is dedicated to quantizing the parameters and updating the weights of other precise parameters to achieve minimal loss derivation compared to the original loss. Generally, any quantization method, such as 8bit, 4bit, etc., can be applied in this case.

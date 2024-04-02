@@ -1,24 +1,50 @@
 ## Table of Content
 - [Table of Content](#table-of-content)
+- [Heuristics](#heuristics)
 - [Data Parallelism](#data-parallelism)
+  - [Zero-DP](#zero-dp)
 - [Pipeline Parallelism](#pipeline-parallelism)
+  - [Features](#features)
+  - [Communication Cost](#communication-cost)
 - [Tensor Parallelism](#tensor-parallelism)
+  - [Features](#features-1)
+  - [Communication Cost](#communication-cost-1)
 - [Activation Recomputation](#activation-recomputation)
 - [Communication optimization](#communication-optimization)
 
+## Heuristics
+- You need to load-balance the tensor/pipeline/data parallelism otherwise some process might timeout?
+- Tensor parallelism doesn't fit long sequences. 
+- DP vs DDP?
+
 ## Data Parallelism
-Data Parallelism
+- You need to do an all-reduce of the gradient at the very end of the forward propagation.
+
+### Zero-DP
+- The gradient back propagation requires all the neurons from the previous layers to be present, but can be accumulated across sequence/batch. During backward propagation, the gradients generated from all the traing samples are only reduced after the entire chain processing is done. Therefore, reduce-scatter is required to transfer the gradients from each parameter for all zero stages.
+- Normally only stage 1 can be combined with pipeline parallelism and tensor parallelism. Its stage 2 and 3 are not recommended to be used together with pipeline parallel. Shard gradient makes the backward propagation for each microbatch requires reduce-scatter. Shard parameters makes the forward propagation requires reduce-scatter.
+- **Zero offloads**: Optimizer states are stored in CPU throughout the training process. Gradients are computed on GPU during the backward propagation. After that, the reduced gradients are offloaded to CPU memory, and the optimizer states also get updated. The new parameters are then loaded into GPU memory for the next step.  
 
 ## Pipeline Parallelism
+### Features
 - Use micro batch set up will reduce the bubble size, while increase the memory footprint due to activation cache (but why? isn't that the same as the use the entire batch at once?).
-- Use pipeDream Flush to schedule the first back-propagation right after the completion of the first forward propagation. Thus, each device's activation memory space is reduced from O(m) to O(p).
-- To further reduce the bubble size, one can adopt model chunks scheme. I.e. each device is assigned to multiple pipeline stages. It reduces the bubble time by $v$, but doesn't affect the ideal processing time. Hence the bubble fraction is reduced too. However, you need to communicate twice as frequent as before.
+- Use Ridedream Flush to schedule the first back-propagation right after the completion of the first forward propagation. Thus, each device's activation memory space is reduced from O(m) to O(p).
+- To further reduce the bubble size, one can adopt model chunks scheme. I.e. each device is assigned to multiple pipeline stages. It reduces the bubble time by $v$, but doesn't affect the ideal processing time.
+Hence the bubble fraction is reduced too. However, you need to communicate twice as frequent as before.
+- The first pipeline stage might have the same activation memory as one micro batch will take for the entire model.
+- Pipeline size that is too large might reduce the compute-to-communication ratio.
+
+### Communication Cost
+- $bsh$ for each micro batch across each pair of stages.
 
 ## Tensor Parallelism
-- For column wise split, you still need to perform one all-reduce operation for attention and MLP parallelism, leading to two all-reduce for each of the forward and backward propagation **for each layer**. 
+
+### Features
+### Communication Cost
+- For column wise split, you still need to perform one all-reduce operation for attention and MLP parallelism, leading to two all-reduce for each of the forward and backward propagation **for each layer**.
 
 ## Activation Recomputation
-- The current implementation includes the non-reentrant and the reentrant variants, where the former uses the saved variable hooks from the compute graph, while the latter creates a mini-graph independent from the big graph for each time of the recomputation. The time complexity is generally O(sqrt(n)).
+- The current implementation includes the non-reentrant and the reentrant variants, where the former uses the saved variable hooks from the compute graph, while the latter creates a mini-graph independent from the big graph for each time of the recomputation. The time complexity is generally O(sart(n)).
 - For pipeline parallelism, a reasonable solution is to discard all the intermediate activation cache while only keep the input activation for each of the pipeline stage.
 
 ## Communication optimization
