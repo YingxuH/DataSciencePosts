@@ -15,11 +15,14 @@
     - [Language model objective](#language-model-objective)
 - [Parallelism](#parallelism)
   - [DeepSpeed (ZeRO)](#deepspeed-zero)
-- [Finetuning](#finetuning)
+  - [1-bit Adam](#1-bit-adam)
+- [Supervised Finetuning](#supervised-finetuning)
   - [Gradient Accumulation](#gradient-accumulation)
   - [Gradient Checkpoint](#gradient-checkpoint)
+- [RLHF](#rlhf)
 - [Quantization](#quantization)
   - [LLM.int8()](#llmint8)
+  - [QLoRA](#qlora)
   - [GPTQ](#gptq)
   - [AWQ](#awq)
   - [Llama CPP](#llama-cpp)
@@ -147,7 +150,7 @@ There are a wide range of common parameters between huggingface transformers and
 > [!important]
 > Switch to `bf16` or `fp32` once the loss becomes NaN.
 
-## Finetuning
+## Supervised Finetuning
 
 ### Gradient Accumulation
 - perform backward propagation at each step, accumulate the gradients for each trainable tensor.
@@ -158,6 +161,12 @@ There are a wide range of common parameters between huggingface transformers and
 
 - Normally reduces the memory footprint from $O(n)$ to $O(sqrt(n))$
 
+## RLHF
+
+- Pure SFT (assume data quality is not very high) is able to generate diversified data but is likely to halluciate. The correctness of the response will not be guaranteed.
+- The performance will degrade if the pre-training and SFT data vary a lot (the catestrophic forgetting!)
+
+ > :question: why not use PPO where the code sand box is actually the scoring model?...
 
 ## Quantization
 It means a projection from a set of indices to real domains. Typically, people save weights in 32-bit for storage and calculate gradients in 16-bit. 
