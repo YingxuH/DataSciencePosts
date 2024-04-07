@@ -19,6 +19,7 @@
 - [Supervised Finetuning](#supervised-finetuning)
   - [Gradient Accumulation](#gradient-accumulation)
   - [Gradient Checkpoint](#gradient-checkpoint)
+- [Mixed precision training](#mixed-precision-training)
 - [RLHF](#rlhf)
 - [Quantization](#quantization)
   - [LLM.int8()](#llmint8)
@@ -72,9 +73,10 @@ The embedding matrix is shared between the input embedding and the output classi
 
 #### Flash Attention
 
+- SRAM is on-chip, whose bandwidth is much higher than HBM. HBM is off-chip instead. 
 - The attention operation is bottlenecked by the memory I/O speed of the HBM.
-- Split the input into blocks and make several passes over input blocks. Perform the softmax function incrementally without saving the entire matrix to memory. 
-- Store the softmax normalization factor for backward passing, which is faster than directing reading the attention matrix from the memory.
+- Load blocks of QKV from HBM into SRAM. Perform the softmax function incrementally without saving the entire matrix to HBM. 
+- Tiling on SRAM enables the fusion of all the kernels inside attention (If you interact with HBM, IO has to be performed after each operation, hence unfeasible to fuse them together). And due to the nature of softmax, one can only save the m and l constants to speed up the recomputation during back-propagation.
 
 #### Sparse Attention
 
@@ -111,9 +113,11 @@ corrupt the input sequence and reproduce it in the output.
 ### DeepSpeed (ZeRO)
 - **Stage 0**: Same as Distributed Data Parallel, since only data will be paritioned. 
 - **Stage 1**: 
-- **Stage 2**:
+- **Stage 2**: 
 - **Stage 3**:
 - **Zero Infinity**: It extends Zero-3 to SSD offloading, with the support of NVMe protocol. It has more effective communication and bandwidth utilization compared to Zero-3. Due to the smart paritioning and tiling algorithm, there is only small amount of communication required for offloading data to SSD. This stage reuquires stage-3 to be enabled. 
+
+> :question: Does stage-2 requires synchronizing different processes before reducing the gradients? 
 
 ### 1-bit Adam
 
@@ -159,7 +163,13 @@ There are a wide range of common parameters between huggingface transformers and
 
 ### Gradient Checkpoint
 
+- The activation is not a problem for invertible operators such as layernorm and softmax. For such layers, no need to cache the input, while the output result is still required. 
 - Normally reduces the memory footprint from $O(n)$ to $O(sqrt(n))$
+
+## Mixed precision training
+
+- Normally the matrix multiplication and convolution functions
+- In Apex implementation, the softmax, cross-entropy, and batch norm modules are not recommended to use mixed precision. The forward propagation of softmax is known to be unstable. 
 
 ## RLHF
 
