@@ -6,7 +6,7 @@ ling-1b-v1训练时采用数据切片、非共享存储方法。其中
 * 每次拉起任务时，由于工程/机器/平台排队问题:wrench:、或者夜间/凌晨等原因:zzz:，都有一定额外等待耗时。
 
 ```mermaid
-%%finit: ("pie": ("textPosition": 0.5}, "themeVariables": {"pieOuterStrokeWidth": "5px")} 1%% 
+%%{init: {"pie": {"textPosition": 0.5}, "themeVariables": {"pieOuterStrokeWidth": "5px"}} }%% 
 pie showData
     title 5月19日起 训练情况统计（天数）
     "训练正常": 26.41
