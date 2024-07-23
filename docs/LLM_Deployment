@@ -17,6 +17,11 @@
 - Tensor parallelism doesn't fit long sequences. 
 - DP vs DDP?
 
+## GPU Architecture
+
+- GPU is more throughput-focused, meaning it is focused on large scale parallel computation, while putting little effort on memory access speed. CPU is the other way round, more latency focused. 
+- Each of the GPU streaming multiprocessors can process multiple thread blocks at the same time, while each block consists of multiple threads. 
+
 ## Data Parallelism
 - You need to do an all-reduce of the gradient at the very end of the forward propagation.
 
